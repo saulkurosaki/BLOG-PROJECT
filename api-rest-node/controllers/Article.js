@@ -70,8 +70,31 @@ const crear = (req, res) => {
 
 };
 
+const listar = (req, res) => {
+
+    let consulta = Article.find({}).exec().then((articulos) => {
+
+        //Caso de error
+        if(!articulos){
+            return res.status(400).json({
+                status: 'Error',
+                mensaje: 'No se ha encontrado articulos',
+            });          
+        };
+
+        //Caso exitoso
+        return res.status(200).send({
+            status: 'success',
+            articulos,
+        });
+
+    });
+
+};
+
 module.exports = {
     test,
     curso,
     crear,
+    listar,
 };
