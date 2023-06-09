@@ -1,4 +1,4 @@
-const validator = require('validator');
+const { validarArticulo } = require('../helpers/validar');
 const Article = require('../models/Article');
 
 const test = (req, res) => {
@@ -25,19 +25,12 @@ const curso = (req, res) => {
 const crear = (req, res) => {
 
     //Recoger los parámetros por POST a guardar
-    let parámetros = req.body;
+    let parametros = req.body;
 
     //Validar los datos
     try {
+        validarArticulo(parametros);
 
-        let validar_titulo = !validator.isEmpty(parámetros.titulo) &&
-                              validator.isLength(parámetros.titulo, {min: 5 , max: undefined});
-        let validar_contenido = !validator.isEmpty(parámetros.contenido);
-
-        if(!validar_titulo || !validar_contenido){
-            throw new Error('No se se ha validado la información');
-        }
-        
     } catch (error) {
         return res.status(400).json({
             status: 'Error',
@@ -46,7 +39,7 @@ const crear = (req, res) => {
     }
 
     //Crear el objeto a guardar y pasarle los parámetros recibidos
-    const article = new Article(parámetros);
+    const article = new Article(parametros);
 
     //Guardar el articulo en la Base de Datos
     article.save().then((articuloGuardado) => {
@@ -158,21 +151,14 @@ const editar = (req, res) => {
 
     //Validar datos
     try {
+        validarArticulo(parametros);
 
-        let validar_titulo = !validator.isEmpty(parametros.titulo) &&
-                              validator.isLength(parametros.titulo, {min: 5 , max: undefined});
-        let validar_contenido = !validator.isEmpty(parametros.contenido);
-
-        if(!validar_titulo || !validar_contenido){
-            throw new Error('No se se ha validado la información');
-        }
-        
     } catch (error) {
         return res.status(400).json({
             status: 'Error',
             mensaje: 'Faltan datos por enviar',
         });       
-    }  
+    }
 
     //Buscar y Actualizar
     Article.findOneAndUpdate({_id: articuloId}, parametros, {new: true}).then((articuloActualizado) => {
