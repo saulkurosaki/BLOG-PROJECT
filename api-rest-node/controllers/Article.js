@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { validarArticulo } = require('../helpers/validar');
 const Article = require('../models/Article');
 
@@ -181,6 +182,45 @@ const editar = (req, res) => {
 
 };
 
+const subir = (req, res) => {
+    //Recoger el fichero de imagen subido
+    if(!req.file && !req.files){
+        return res.status(404).json({
+            status: 'Error',
+            mensaje: 'Petición Invalida',
+        });
+    };
+
+    //Conseguir el Nombre del archivo
+    let archivo = req.file.originalname;
+
+    //Extension del archivo
+    let archivo_split = archivo.split('\.');
+    let extension = archivo_split[1];
+
+    //Comprobar la extension correcta
+    if(extension != 'png' && extension != 'jpg' &&
+       extension != 'jpeg' && extension != 'gif'){
+        //Borrar archivo y dar respuesta
+        fs.unlink(req.file.path, (error) => {
+            return res.status(400).json({
+                status: 'Error',
+                mensaje: 'Imagen invalida',
+            });
+        });
+
+    } else {
+        //Si todo va bien Actualizar articulo
+
+        //Devolver respuesta
+        return res.status(200).json({
+            status: 'success',
+            files: req.file,
+        });
+    };
+
+};
+
 module.exports = {
     test,
     curso,
@@ -189,4 +229,5 @@ module.exports = {
     uno,
     borrar,
     editar,
+    subir,
 };
