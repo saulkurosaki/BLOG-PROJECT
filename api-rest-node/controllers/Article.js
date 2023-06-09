@@ -126,10 +126,34 @@ const uno = (req, res) => {
 
 };
 
+const borrar = (req, res) => {
+
+    let articulo_id = req.params.id;
+
+    Article.findOneAndDelete({_id: articulo_id}).then((articuloBorrado) => {
+
+        if(!articuloBorrado){
+            return res.status(500).json({
+                status: 'Error',
+                mensaje: 'Error al borrar el articulo',
+            });          
+        };      
+
+        return res.status(200).json({
+            status: 'success',
+            articulo: articuloBorrado,
+            mensaje: 'El articulo ha sido borrado con éxito',
+        });      
+
+    });
+    
+};
+
 module.exports = {
     test,
     curso,
     crear,
     listar,
     uno,
+    borrar,
 };

@@ -10,6 +10,7 @@ router.get('/curso', ArticleController.curso);
 router.post('/crear', ArticleController.crear);
 router.get('/articulos/:ultimos?', ArticleController.listar);
 router.get('/articulo/:id', ArticleController.uno);
+router.delete('/articulo/:id', ArticleController.borrar);
 
 
 module.exports = router;
