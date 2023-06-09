@@ -84,7 +84,7 @@ const listar = (req, res) => {
 
         //Caso de error
         if(!articulos){
-            return res.status(400).json({
+            return res.status(404).json({
                 status: 'Error',
                 mensaje: 'No se ha encontrado articulos',
             });          
@@ -101,9 +101,35 @@ const listar = (req, res) => {
 
 };
 
+const uno = (req, res) => {
+    //Recoger un id por la url
+    let id = req.params.id;
+
+    //Buscar el articulo
+    Article.findById(id).then((articulo) => {
+
+        //Si no existe devolver error
+        if(!articulo){
+            return res.status(404).json({
+                status: 'Error',
+                mensaje: 'No se ha encontrado articulo',
+            });          
+        };      
+
+        //Si existe devolver resultado
+        return res.status(200).json({
+            status: 'success',
+            articulo,
+        });
+
+    });
+
+};
+
 module.exports = {
     test,
     curso,
     crear,
     listar,
+    uno,
 };

@@ -9,6 +9,7 @@ router.get('/curso', ArticleController.curso);
 //Rutas Útiles
 router.post('/crear', ArticleController.crear);
 router.get('/articulos/:ultimos?', ArticleController.listar);
+router.get('/articulo/:id', ArticleController.uno);
 
 
 module.exports = router;
