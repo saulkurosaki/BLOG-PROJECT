@@ -8,7 +8,7 @@ router.get('/curso', ArticleController.curso);
 
 //Rutas Útiles
 router.post('/crear', ArticleController.crear);
-router.get('/articulos', ArticleController.listar);
+router.get('/articulos/:ultimos?', ArticleController.listar);
 
 
 module.exports = router;

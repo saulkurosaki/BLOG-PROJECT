@@ -72,9 +72,15 @@ const crear = (req, res) => {
 
 const listar = (req, res) => {
 
-    let consulta = Article.find({})
-                          .sort({fecha: -1}) //Orden descendente (-1)
-                          .exec().then((articulos) => {
+    let consulta = Article.find({});
+
+    if(req.params.ultimos){
+        consulta.limit(3);
+    };
+                          
+    
+    consulta.sort({fecha: -1}) //Orden descendente (-1)
+            .exec().then((articulos) => {
 
         //Caso de error
         if(!articulos){
@@ -87,6 +93,7 @@ const listar = (req, res) => {
         //Caso exitoso
         return res.status(200).send({
             status: 'success',
+            contador: articulos.length,
             articulos,
         });
 
