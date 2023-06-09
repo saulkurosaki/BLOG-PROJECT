@@ -36,7 +36,7 @@ const crear = (req, res) => {
         return res.status(400).json({
             status: 'Error',
             mensaje: 'Faltan datos por enviar',
-        });       
+        });
     }
 
     //Crear el objeto a guardar y pasarle los parámetros recibidos
@@ -46,7 +46,7 @@ const crear = (req, res) => {
     article.save().then((articuloGuardado) => {
 
         //Si existe un error
-        if(!articuloGuardado){
+        if (!articuloGuardado) {
             return res.status(400).json({
                 status: 'Error',
                 mensaje: 'No se ha guardado el articulo',
@@ -68,30 +68,30 @@ const listar = (req, res) => {
 
     let consulta = Article.find({});
 
-    if(req.params.ultimos){
+    if (req.params.ultimos) {
         consulta.limit(3);
     };
-                          
-    
-    consulta.sort({fecha: -1}) //Orden descendente (-1)
-            .exec().then((articulos) => {
 
-        //Caso de error
-        if(!articulos){
-            return res.status(404).json({
-                status: 'Error',
-                mensaje: 'No se ha encontrado articulos',
-            });          
-        };
 
-        //Caso exitoso
-        return res.status(200).send({
-            status: 'success',
-            contador: articulos.length,
-            articulos,
+    consulta.sort({ fecha: -1 }) //Orden descendente (-1)
+        .exec().then((articulos) => {
+
+            //Caso de error
+            if (!articulos) {
+                return res.status(404).json({
+                    status: 'Error',
+                    mensaje: 'No se ha encontrado articulos',
+                });
+            };
+
+            //Caso exitoso
+            return res.status(200).send({
+                status: 'success',
+                contador: articulos.length,
+                articulos,
+            });
+
         });
-
-    });
 
 };
 
@@ -103,12 +103,12 @@ const uno = (req, res) => {
     Article.findById(id).then((articulo) => {
 
         //Si no existe devolver error
-        if(!articulo){
+        if (!articulo) {
             return res.status(404).json({
                 status: 'Error',
                 mensaje: 'No se ha encontrado articulo',
-            });          
-        };      
+            });
+        };
 
         //Si existe devolver resultado
         return res.status(200).json({
@@ -124,23 +124,23 @@ const borrar = (req, res) => {
 
     let articuloId = req.params.id;
 
-    Article.findOneAndDelete({_id: articuloId}).then((articuloBorrado) => {
+    Article.findOneAndDelete({ _id: articuloId }).then((articuloBorrado) => {
 
-        if(!articuloBorrado){
+        if (!articuloBorrado) {
             return res.status(500).json({
                 status: 'Error',
                 mensaje: 'Error al borrar el articulo',
-            });          
-        };      
+            });
+        };
 
         return res.status(200).json({
             status: 'success',
             articulo: articuloBorrado,
             mensaje: 'El articulo ha sido borrado con éxito',
-        });      
+        });
 
     });
-    
+
 };
 
 const editar = (req, res) => {
@@ -158,14 +158,14 @@ const editar = (req, res) => {
         return res.status(400).json({
             status: 'Error',
             mensaje: 'Faltan datos por enviar',
-        });       
+        });
     }
 
     //Buscar y Actualizar
-    Article.findOneAndUpdate({_id: articuloId}, parametros, {new: true}).then((articuloActualizado) => {
+    Article.findOneAndUpdate({ _id: articuloId }, parametros, { new: true }).then((articuloActualizado) => {
 
         //En caso de Error
-        if(!articuloActualizado){
+        if (!articuloActualizado) {
             return res.status(500).json({
                 status: 'Error',
                 mensaje: 'Error al actualizar',
@@ -184,7 +184,7 @@ const editar = (req, res) => {
 
 const subir = (req, res) => {
     //Recoger el fichero de imagen subido
-    if(!req.file && !req.files){
+    if (!req.file && !req.files) {
         return res.status(404).json({
             status: 'Error',
             mensaje: 'Petición Invalida',
@@ -199,8 +199,8 @@ const subir = (req, res) => {
     let extension = archivo_split[1];
 
     //Comprobar la extension correcta
-    if(extension != 'png' && extension != 'jpg' &&
-       extension != 'jpeg' && extension != 'gif'){
+    if (extension != 'png' && extension != 'jpg' &&
+        extension != 'jpeg' && extension != 'gif') {
         //Borrar archivo y dar respuesta
         fs.unlink(req.file.path, (error) => {
             return res.status(400).json({
@@ -210,13 +210,29 @@ const subir = (req, res) => {
         });
 
     } else {
-        //Si todo va bien Actualizar articulo
+        //Recoger id articulo a editar
+        let articuloId = req.params.id;
 
-        //Devolver respuesta
-        return res.status(200).json({
-            status: 'success',
-            files: req.file,
+        //Buscar y Actualizar
+        Article.findOneAndUpdate({ _id: articuloId }, {imagen: req.file.filename}, { new: true }).then((articuloActualizado) => {
+
+            //En caso de Error
+            if (!articuloActualizado) {
+                return res.status(500).json({
+                    status: 'Error',
+                    mensaje: 'Error al actualizar',
+                });
+            };
+
+            //Devolver respuesta
+            return res.status(200).json({
+                status: 'success',
+                articulo: articuloActualizado,
+                fichero: req.file,
+            });
+
         });
+
     };
 
 };
