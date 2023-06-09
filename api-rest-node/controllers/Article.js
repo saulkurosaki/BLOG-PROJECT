@@ -72,7 +72,9 @@ const crear = (req, res) => {
 
 const listar = (req, res) => {
 
-    let consulta = Article.find({}).exec().then((articulos) => {
+    let consulta = Article.find({})
+                          .sort({fecha: -1}) //Orden descendente (-1)
+                          .exec().then((articulos) => {
 
         //Caso de error
         if(!articulos){
