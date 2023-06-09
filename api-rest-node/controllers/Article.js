@@ -128,9 +128,9 @@ const uno = (req, res) => {
 
 const borrar = (req, res) => {
 
-    let articulo_id = req.params.id;
+    let articuloId = req.params.id;
 
-    Article.findOneAndDelete({_id: articulo_id}).then((articuloBorrado) => {
+    Article.findOneAndDelete({_id: articuloId}).then((articuloBorrado) => {
 
         if(!articuloBorrado){
             return res.status(500).json({
@@ -149,6 +149,52 @@ const borrar = (req, res) => {
     
 };
 
+const editar = (req, res) => {
+    //Recoger id articulo a editar
+    let articuloId = req.params.id;
+
+    //Recoger datos de body
+    let parametros = req.body;
+
+    //Validar datos
+    try {
+
+        let validar_titulo = !validator.isEmpty(parametros.titulo) &&
+                              validator.isLength(parametros.titulo, {min: 5 , max: undefined});
+        let validar_contenido = !validator.isEmpty(parametros.contenido);
+
+        if(!validar_titulo || !validar_contenido){
+            throw new Error('No se se ha validado la información');
+        }
+        
+    } catch (error) {
+        return res.status(400).json({
+            status: 'Error',
+            mensaje: 'Faltan datos por enviar',
+        });       
+    }  
+
+    //Buscar y Actualizar
+    Article.findOneAndUpdate({_id: articuloId}, parametros, {new: true}).then((articuloActualizado) => {
+
+        //En caso de Error
+        if(!articuloActualizado){
+            return res.status(500).json({
+                status: 'Error',
+                mensaje: 'Error al actualizar',
+            });
+        };
+
+        //Devolver respuesta
+        return res.status(200).json({
+            status: 'success',
+            articulo: articuloActualizado,
+        });
+
+    });
+
+};
+
 module.exports = {
     test,
     curso,
@@ -156,4 +202,5 @@ module.exports = {
     listar,
     uno,
     borrar,
+    editar,
 };
