@@ -25,6 +25,7 @@ router.get('/articulo/:id', ArticleController.uno);
 router.delete('/articulo/:id', ArticleController.borrar);
 router.put('/articulo/:id', ArticleController.editar);
 router.post('/subir-imagen/:id', [subidas.single('file0')], ArticleController.subir);
+router.get('/imagen/:fichero', ArticleController.imagen);
 
 
 module.exports = router;

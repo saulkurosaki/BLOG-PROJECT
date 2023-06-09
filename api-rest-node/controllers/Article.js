@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { validarArticulo } = require('../helpers/validar');
 const Article = require('../models/Article');
 
@@ -237,6 +238,27 @@ const subir = (req, res) => {
 
 };
 
+const imagen = (req, res) => {
+    
+    let fichero = req.params.fichero;
+    let ruta_fisica = './imagenes/articulos/'+fichero;
+
+    fs.stat(ruta_fisica, (error, existe) => {
+        if(existe){
+            return res.sendFile(path.resolve(ruta_fisica));
+        } else {
+            return res.status(404).json({
+                status: 'Error',
+                mensaje: 'La imagen no existe',
+                existe,
+                fichero,
+                ruta_fisica,
+            });
+        };
+    });
+
+};
+
 module.exports = {
     test,
     curso,
@@ -246,4 +268,5 @@ module.exports = {
     borrar,
     editar,
     subir,
+    imagen,
 };
