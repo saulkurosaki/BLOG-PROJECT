@@ -6,5 +6,8 @@ const ArticleController = require('../controllers/Article');
 router.get('/ruta-de-prueba', ArticleController.test);
 router.get('/curso', ArticleController.curso);
 
+//Rutas Útiles
+router.post('/crear', ArticleController.crear);
+
 
 module.exports = router;
