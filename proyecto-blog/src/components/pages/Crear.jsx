@@ -1,21 +1,49 @@
-import React from 'react'
+import React from 'react';
+import { useState } from 'react';
+import { useForm } from '../../hooks/useForm';
+import { Peticion } from '../../helpers/Peticion';
+import { Global } from '../../helpers/Global';
 
 export const Crear = () => {
+
+  const {formulario, enviado, cambiado} = useForm({});
+  const [resultado, setResultado] = useState('no_enviado');
+  
+  const guardarArticulo = async(e) => {
+    e.preventDefault();
+
+    //Recoger datos formulario
+    let nuevoArticulo = formulario;
+
+    //Guardar articulo en el BackEnd
+    const {datos, cargando} = await Peticion(Global.url+'crear', 'POST', nuevoArticulo);
+
+    if(datos.status === 'success'){
+      setResultado('guardado');
+    } else {
+      setResultado('error');
+    };
+
+  };
+
   return (
     <div className='jumbo'>
       <h1>Crear Articulo</h1>
       <p>Formulario para crear un articulo</p>
 
-      <form className='formulario'>
+      <strong>{resultado == 'guardado' ? 'Articulo guardado con éxito' : ''}</strong>
+      <strong>{resultado == 'error' ? 'Los datos proporcionados son incorrectos' : ''}</strong>
+
+      <form className='formulario' onSubmit={guardarArticulo}>
 
         <div className='form-group'>
           <label htmlFor='titulo'>Titulo</label>
-          <input type='text' name='titulo'/>
+          <input type='text' name='titulo' onChange={cambiado}/>
         </div>
 
         <div className='form-group'>
           <label htmlFor='contenido'>Contenido</label>
-          <textarea name='contenido'/>
+          <textarea name='contenido' onChange={cambiado}/>
         </div>
 
         <div className='form-group'>
