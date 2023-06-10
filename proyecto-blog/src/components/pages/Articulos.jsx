@@ -2,53 +2,38 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Global } from '../../helpers/global';
 import { Peticion } from '../../helpers/Peticion';
+import { Listado } from './Listado';
 
 export const Articulos = () => {
 
   const [articulos, setArticulos] = useState([]);
+  const [cargando, setCargando] = useState(true);
 
   useEffect(async() => {
     conseguirArticulos();
   }, []);
 
   const conseguirArticulos = async() => {
-    
+
     const {datos, cargando} = await Peticion(Global.url+'articulos', 'Get');
 
     if(datos.status === 'success'){
       setArticulos(datos.articulos);
     };
 
+    setCargando(false);
+
   };
 
   return (
     <>
-
-      {
-      articulos.length >= 1 ?
+      {cargando ? 'Cargando...' :
         (
-          articulos.map(articulo => {
-
-            return (
-              <article key={articulo._id} className='articulo-item'>
-                <div className='mascara'>
-                  <img src='https://tse1.mm.bing.net/th?id=OIP.Z_RedhUZ_XciZPgYbuqNqQHaF7&pid=Api&P=0&h=180' />
-                </div>
-    
-                <div className='datos'>
-                  <h3 className='title'>{articulo.titulo}</h3>
-                  <p className='description'>{articulo.contenido}</p>
-    
-                  <button className='edit'>Editar</button>
-                  <button className='delete'>Borrar</button>
-                </div>
-              </article>
-            );
-    
-          })
-        ):(
-          <h1>No hay articulos</h1>
-        )}
+          articulos.length >= 1 
+            ? <Listado articulos={articulos} setArticulos={setArticulos} /> 
+            : <h1>No hay articulos</h1>
+        )
+      }
 
     </>
   )
