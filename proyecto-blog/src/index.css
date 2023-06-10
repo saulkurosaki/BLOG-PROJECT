@@ -98,9 +98,9 @@ body{
   background: #f6f7f9;
 
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: initial;
   flex-grow: 1;
 }
 
@@ -114,6 +114,23 @@ body{
   padding-bottom: 60px;
   padding-left: 25px;
   padding-right: 25px;
+  text-align: left;
+  max-height: 225px;
+  display: flex;
+}
+
+.articulo-item .mascara {
+  width: 20%;
+  overflow: hidden;
+  margin-right: 40px;
+}
+
+.articulo-item .mascara img {
+  width: 100%;
+}
+
+.articulo-item h3 {
+  font-size: 30px;
 }
 
 .jumbo {
@@ -157,7 +174,7 @@ input[type="button"]{
 }
 
 .articulo-item .edit {
-  margin-right: 7px;
+  margin-right: 20px;
 }
 
 .articulo-item .edit:hover{
