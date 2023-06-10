@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { Peticion } from '../../helpers/Peticion';
-import { Global } from '../../helpers/Global';
+import { Global } from '../../helpers/global';
 
 export const Crear = () => {
 
