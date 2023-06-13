@@ -20,23 +20,27 @@ export const Crear = () => {
 
     if(datos.status === 'success'){
       setResultado('guardado');
+    } else {
+      setResultado('error');  
+    };
 
-      //Subir imagen
-      const fileInput = document.querySelector('#file');
+    //Subir imagen
+    const fileInput = document.querySelector('#file');
+
+    if(datos.status === 'success' && fileInput.files[0]){
+      setResultado('guardado');
 
       const formData = new FormData();
       formData.append('file0', fileInput.files[0]);
 
-      const subida = await Peticion(Global.url+'subir-imagen/'+datos.articulo._id, 'POST', formData, true);
+      const subida = await Peticion(Global.url+'subir-imagen/'+datos.article._id, 'POST', formData, true);
 
-      if(subida.status === 'success'){
+      if(subida.datos.status === 'success'){
         setResultado('guardado');
       } else {
         setResultado('error');  
       };
 
-    } else {
-      setResultado('error');
     };
 
   };

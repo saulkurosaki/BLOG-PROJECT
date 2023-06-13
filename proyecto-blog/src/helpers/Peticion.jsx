@@ -13,8 +13,6 @@ export const Peticion = async (url, metodo, datosGuardar = "", archivos= false) 
     };
 
     if (metodo == 'POST' || metodo == 'PUT') {
-
-        let body = JSON.stringify(datosGuardar);
         
         if(archivos){
             opciones = {
@@ -27,7 +25,7 @@ export const Peticion = async (url, metodo, datosGuardar = "", archivos= false) 
                 method: metodo,
                 body: JSON.stringify(datosGuardar),
                 headers: {
-                    "ContentType": "application/json"
+                    "Content-Type": "application/json"
                 }
             };
         };

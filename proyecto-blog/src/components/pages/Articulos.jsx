@@ -9,7 +9,7 @@ export const Articulos = () => {
   const [articulos, setArticulos] = useState([]);
   const [cargando, setCargando] = useState(true);
 
-  useEffect(async() => {
+  useEffect(() => {
     conseguirArticulos();
   }, []);
 
