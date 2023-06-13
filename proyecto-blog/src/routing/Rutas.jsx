@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import { Inicio } from "../components/pages/Inicio";
 import { Articulos } from "../components/pages/Articulos";
+import { Articulo } from '../components/pages/Articulo';
 import { Header } from "../components/layout/Header";
 import { Nav } from "../components/layout/Nav";
 import { Sidebar } from "../components/layout/Sidebar";
@@ -24,6 +25,7 @@ export const Rutas = () => {
                 <Route path="/articulos" element={<Articulos />}/>
                 <Route path="/crear-articulos" element={<Crear />}/>
                 <Route path="/buscar/:busqueda" element={<Busqueda />}/>
+                <Route path="/articulo/:id" element={<Articulo />}/>
 
                 <Route path="*" element={
                   <div className="jumbo">

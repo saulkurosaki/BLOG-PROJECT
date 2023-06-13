@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Global } from '../../helpers/global';
 import { Peticion } from '../../helpers/Peticion';
 
@@ -22,12 +23,11 @@ export const Listado = ({ articulos, setArticulos }) => {
           <article key={articulo._id} className='articulo-item'>
             <div className='mascara'>
               {articulo.imagen != 'default.png' && <img src={Global.url + 'imagen/' + articulo.imagen}/>}
-              {articulo.imagen == 'default.png' && <img src='https://tse1.mm.bing.net/th?id=OIP.Z_RedhUZ_XciZPgYbuqNqQHaF7&pid=Api&P=0&h=180' />}
+              {articulo.imagen == 'default.png' && <img src='https://glints.com/id/lowongan/wp-content/uploads/2020/10/logo-reactjs-1024x584.jpg' />}
             </div>
 
             <div className='datos'>
-              <h3 className='title'>{articulo.titulo}</h3>
-              <p className='description'>{articulo.contenido}</p>
+              <h3 className='title'><Link to={'/articulo/'+articulo._id}>{articulo.titulo}</Link></h3>
 
               <button className='edit'>Editar</button>
               <button className='delete' onClick={() => {
