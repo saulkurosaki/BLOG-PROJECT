@@ -15,7 +15,7 @@ export const Articulos = () => {
 
   const conseguirArticulos = async() => {
 
-    const {datos, cargando} = await Peticion(Global.url+'articulos', 'Get');
+    const {datos, cargando} = await Peticion(Global.url+'articulos', 'GET');
 
     if(datos.status === 'success'){
       setArticulos(datos.articulos);
