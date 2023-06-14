@@ -26,14 +26,14 @@ export const Editar = () => {
 
   };
 
-  const guardarArticulo = async (e) => {
+  const editarArticulo = async (e) => {
     e.preventDefault();
 
     //Recoger datos formulario
     let nuevoArticulo = formulario;
 
     //Guardar articulo en el BackEnd
-    const { datos } = await Peticion(Global.url + 'crear', 'POST', nuevoArticulo);
+    const { datos } = await Peticion(Global.url + 'articulo/' + params.id, 'PUT', nuevoArticulo);
 
     if (datos.status === 'success') {
       setResultado('guardado');
@@ -49,8 +49,8 @@ export const Editar = () => {
 
       const formData = new FormData();
       formData.append('file0', fileInput.files[0]);
-
-      const subida = await Peticion(Global.url + 'subir-imagen/' + datos.article._id, 'POST', formData, true);
+    
+      const subida = await Peticion(Global.url+'subir-imagen/'+ params.id, 'POST', formData, true);
 
       if (subida.datos.status === 'success') {
         setResultado('guardado');
@@ -70,16 +70,16 @@ export const Editar = () => {
       <strong>{resultado == 'guardado' ? 'Articulo guardado con éxito' : ''}</strong>
       <strong>{resultado == 'error' ? 'Los datos proporcionados son incorrectos' : ''}</strong>
 
-      <form className='formulario' onSubmit={guardarArticulo}>
+      <form className='formulario' onSubmit={editarArticulo}>
 
         <div className='form-group'>
           <label htmlFor='titulo'>Titulo</label>
-          <input type='text' name='titulo' onChange={cambiado} value={articulo.titulo} />
+          <input type='text' name='titulo' onChange={cambiado} defaultValue={articulo.titulo} />
         </div>
 
         <div className='form-group'>
           <label htmlFor='contenido'>Contenido</label>
-          <textarea name='contenido' onChange={cambiado} value={articulo.contenido} />
+          <textarea name='contenido' onChange={cambiado} defaultValue={articulo.contenido} />
         </div>
 
         <div className='form-group'>

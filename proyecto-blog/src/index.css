@@ -167,7 +167,7 @@ body{
 }
 
 .jumbo .mascara {
-  width: 1078px;
+  max-width: 1078px;
   height: 436px;
   overflow: hidden;
   margin: 0 auto;
