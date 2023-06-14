@@ -20,6 +20,7 @@ body{
       "footer footer footer footer"
   ;
   grid-template-rows: 100px 70px auto 70px;
+  grid-template-columns: 1fr, 1fr, 1fr, 25%;
 }
 
 /*ESTILOS CABECERA*/
@@ -120,7 +121,7 @@ body{
 }
 
 .articulo-item .mascara {
-  width: 20%;
+  width: 30%;
   overflow: hidden;
   margin-right: 40px;
 }
@@ -172,6 +173,16 @@ body{
   margin: 0 auto;
 }
 
+.form-group .mascara {
+  width: 250px;
+  height: auto;
+  margin: 5px;
+}
+
+.form-group .mascara img {
+  width: 250px;
+}
+
 #article-title {
   font-size: 50px;
   margin-bottom: 15px;
@@ -180,7 +191,8 @@ body{
 .button,
 button,
 input[type="submit"],
-input[type="button"]{
+input[type="button"],
+.edit {
   text-decoration: none;
   width: 100px;
   background: #0b70e1;
